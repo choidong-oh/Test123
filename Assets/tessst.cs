@@ -25,12 +25,12 @@ public class tessst : MonoBehaviour
         int count = 1;
         Vector3 startPosition = Tr.transform.position;
 
-        for (int i = 1; i < 5; i++) 
+        for (int i = 0; i < 4; i++) 
         {
-            Ray ray = new Ray(startPosition , direction*i*0.5f); 
+            Ray ray = new Ray(new Vector3(startPosition.x, startPosition.y+i*0.5f, startPosition.z),direction); 
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit, i*0.5f))
+            if (Physics.Raycast(ray, out hit, 0.5f))
             {
                 if (hit.collider.CompareTag("Black"))
                 {
