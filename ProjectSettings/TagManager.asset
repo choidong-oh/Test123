@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Black
+  - White
   layers:
   - Default
   - TransparentFX
