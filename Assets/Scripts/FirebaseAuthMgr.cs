@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Firebase;
 using Firebase.Auth;
 using Firebase.Extensions;
+using System.Threading.Tasks;
 
 public class FirebaseAuthMgr : MonoBehaviour
 {
@@ -44,9 +45,9 @@ public class FirebaseAuthMgr : MonoBehaviour
     }
     IEnumerator LoginCor(string email, string password)
     {
-        var loginTask = auth.SignInWithEmailAndPasswordAsync(email, password);  
-        yield return new WaitUntil(predicate: ()=> loginTask.IsCompleted);
-        if(loginTask.Exception != null)
+        var loginTask = auth.SignInWithEmailAndPasswordAsync(email, password);
+        yield return new WaitUntil(predicate: () => loginTask.IsCompleted);
+        if (loginTask.Exception != null)
         {
             Debug.LogWarning(message: "다음과 같은 이유로 로그인 실패:" + loginTask.Exception);
             FirebaseException firebaseEx = loginTask.Exception.GetBaseException() as FirebaseException;
@@ -73,7 +74,7 @@ public class FirebaseAuthMgr : MonoBehaviour
                     message = "관리자에게 문의 바랍니다";
                     break;
             }
-            warningText.text = message;    
+            warningText.text = message;
         }
         else
         {
@@ -121,6 +122,45 @@ public class FirebaseAuthMgr : MonoBehaviour
     }
 
 
+    //비동기
+    //async Task LoginAsync(string email, string password)
+    //{
+    //    try
+    //    {
+    //        var loginTask = await auth.SignInWithEmailAndPasswordAsync(email, password);
+
+    //        Debug.Log("로그인 성공!");
+
+    //        await UnityMainThreadDispatcher.Instance().EnqueueAsync(() =>
+    //        {
+    //            someUI.SetActive(true);  // UI 활성화
+    //            warningText.text = "로그인 성공!";
+    //        });
+    //    }
+    //    catch (FirebaseException firebaseEx)
+    //    {
+    //        AuthError errorCode = (AuthError)firebaseEx.ErrorCode;
+    //        string message = errorCode switch
+    //        {
+    //            AuthError.MissingEmail => "이메일 누락",
+    //            AuthError.MissingPassword => "패스워드 누락",
+    //            AuthError.WrongPassword => "패스워드 틀림",
+    //            AuthError.InvalidEmail => "이메일 형식이 옳지 않음",
+    //            AuthError.UserNotFound => "아이디가 존재하지 않음",
+    //            _ => "관리자에게 문의 바랍니다"
+    //        };
+
+    //        Debug.LogWarning($"로그인 실패: {message}");
+
+    //        await UnityMainThreadDispatcher.Instance().EnqueueAsync(() =>
+    //        {
+    //            warningText.text = message;
+    //            someUI.SetActive(false);  // UI 비활성화
+    //        });
+    //    }
 
 
+
+
+    }
 }
